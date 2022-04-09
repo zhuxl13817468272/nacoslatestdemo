@@ -1,0 +1,58 @@
+server:
+  port: 8010
+spring:
+  application:
+    name: nacos-client
+
+  cloud:
+    nacos:
+      discovery:
+        enabled: true
+        server-addr: 10.228.131.21:8848
+        cluster-name: SH
+    sentinel:
+      transport:
+        dashboard: 10.228.131.102:8080
+#        port: 8719
+
+# ribbon负载均衡策略
+#  ribbon:
+#    NFLoadBalancerRuleClassName: com.alibaba.cloud.nacos.ribbon.NacosRule
+
+# ribbon开启饥饿加载
+#ribbon:
+#  eager-load:
+#    enabled: true
+#    clients: nacos-provider
+
+# feign服务调用日志级别以及超时时间
+feign:
+  client:
+    config:
+      nacos-provider:
+        loggerLevel: FULL
+        connectTimeout: 2000
+        readTimeout: 5000
+  # feign开启压缩，有效节约网络资源，提升接口性能   注意：只有当Feign的HttpClient(默认是HttpUrlConnection)不是okhttp3的时候，压缩才会生效
+  compression:
+    request:
+      enabled: true
+      mime-types: text/xml,application/xml,application/json  # 配置压缩的类型
+      min-request-size: 2048 # 最小压缩值
+    response:
+      enabled: true
+
+  sentinel:  # Feign开启sentinel支持
+    enabled: true
+# feign设置日志级别前提条件
+logging:
+  level:
+    # 这里需要配置为debug，否则feign的日志级别配置不会生效。 level后可写包、类都可，按需填写
+    com.zxl.nacoslatest.nacosclient: debug
+
+# 暴露actuator端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
