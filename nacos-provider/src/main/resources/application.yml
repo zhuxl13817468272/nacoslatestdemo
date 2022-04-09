@@ -1,0 +1,22 @@
+server:
+  port: 8001
+spring:
+  application:
+    name: nacos-provider
+
+  cloud:
+    nacos:
+      discovery:
+        enabled: true
+        server-addr: 10.228.131.21:8848
+        cluster-name: SH
+    sentinel:
+      transport:
+        dashboard: 10.228.131.102:8080
+#        port: 8719
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
